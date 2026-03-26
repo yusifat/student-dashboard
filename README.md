@@ -32,7 +32,7 @@ StudyBuddy lost het probleem op dat studenten moeite hebben met het organiseren 
 |-----------|--------|---------|
 | **Backend** | PHP 8.x | OOP, PDO, Prepared Statements |
 | **Database** | MySQL 5.7+ | Relational DB met InnoDB |
-| **Frontend** | HTML5/CSS3 | Responsive, Mobile-friendly |
+| **Frontend** | Tailwind CSS | Utility-first CSS framework via CDN |
 | **Security** | N/A | ARGON2ID password hashing, RBAC |
 
 ## 📁 Project Structuur
@@ -47,8 +47,6 @@ student-dashboard/
 │   ├── tasks.php             # Deadlines lijst
 │   ├── materials.php         # Materiaal collectie
 │   ├── logout.php            # Logout
-│   ├── css/
-│   │   └── style.css         # Main stylesheet
 │   ├── js/                   # JavaScript files
 │   └── admin/
 │       ├── courses.php       # Vak management
@@ -182,18 +180,26 @@ if(!SessionManager::isAdmin()) {
 
 ## 🎨 Design & Styling
 
+### Framework
+- **Tailwind CSS**: Utility-first CSS framework via CDN
+- Modern, professional design suited for educational institutions
+- Fully responsive and accessible
+- Dark-mode ready with utility classes
+
 ### Kleurenpalette
-- **Primair**: Lichtblauw `#ADD8E6` - Rust en focus
-- **Secundair**: Zachtgroen `#90EE90` - Positiviteit
-- **Danger**: Rood `#FF6B6B` - Alerts en kritiek
-- **Success**: Groen `#51CF66` - Voltooid
-- **Achtergrond**: Wit `#FFFFFF` - Clean design
+- **Primair**: Purple `#667eea → #764ba2` - Modern gradient
+- **Secundair**: Gray scale - Various shades for hierarchy
+- **Danger**: Red `#ef4444` - Alerts en kritiek
+- **Success**: Green `#22c55e` - Voltooid
+- **Info**: Blue `#3b82f6` - Informatie
+- **Achtergrond**: Light Gray `#f9fafb` - Clean design
 
 ### Layout
-- Minimale sidebar met iconen
-- Responsive grid layouts
-- Mobile-friendly interface
-- Focus op leesbaarheid
+- Fixed sidebar navigation (64px wide)
+- Responsive grid layouts (mobile, tablet, desktop)
+- Card-based component design
+- Shadow hierarchy for depth
+- Focus on accessibility (WCAG 2.1)
 
 ## 📊 Database Schema
 
@@ -243,11 +249,14 @@ GROUP BY c.id;
 Het project is goed georganiseerd met duidelijke commits:
 
 ```
-e5336cc - feat: Initial project setup met database schema e core models
+e5336cc - feat: Initial project setup met database schema en core models
 204693f - feat: Authenticatie systeem en Dashboard implementatie
 e0d0f49 - feat: Student views voor cijfers, taken en materialen
 cb4dda1 - feat: Admin panel voor docenten met vak management
 69a2fb4 - docs: Setup instructies en finalisatie
+02fd771 - fix: XAMPP path issues - fix relative paths en BASE_PATH constants
+c4bdc5e - feat: Tailwind CSS redesign - Professioneel school-ready design
+886f816 - chore: Remove deprecated CSS - Using Tailwind CDN exclusively
 ```
 
 ## 📚 Documentatie
@@ -272,5 +281,5 @@ Dit is een eindproject. Voor wijzigingen:
 ---
 
 **Status**: ✅ Production Ready  
-**Version**: 1.0.0  
-**Last Updated**: 26 maart 2026
+**Version**: 1.1.0 - Tailwind CSS Redesign  
+**Last Updated**: 9 maart 2026
