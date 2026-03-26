@@ -1,9 +1,10 @@
 <?php
+require_once __DIR__ . '/../config/Config.php';
 session_start();
 
 // Als al ingelogd, redirect naar dashboard
 if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-    header('Location: /dashboard.php');
+    header('Location: ' . BASE_PATH . '/dashboard.php');
     exit;
 }
 

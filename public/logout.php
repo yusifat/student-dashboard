@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/src/controllers/AuthController.php';
+require_once __DIR__ . '/../config/Config.php';
+require_once __DIR__ . '/../src/controllers/AuthController.php';
 
 AuthController::handleLogout();
 

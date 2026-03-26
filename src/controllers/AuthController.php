@@ -136,7 +136,8 @@ class AuthController {
      */
     public static function requireLogin() {
         if(!self::isAuthenticated()) {
-            header('Location: /login.php');
+            $base = defined('BASE_PATH') ? BASE_PATH : '';
+            header('Location: ' . $base . '/login.php');
             exit;
         }
     }
@@ -146,7 +147,8 @@ class AuthController {
      */
     public static function requireAdmin() {
         if(!SessionManager::isAdmin()) {
-            header('Location: /dashboard.php');
+            $base = defined('BASE_PATH') ? BASE_PATH : '';
+            header('Location: ' . $base . '/dashboard.php');
             exit;
         }
     }
