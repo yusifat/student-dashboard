@@ -135,6 +135,24 @@ html, body {
     box-shadow: 0 0 0 3px rgba(173, 216, 230, 0.1);
 }
 
+.form-group select,
+.form-group textarea {
+    padding: 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    background-color: var(--background-color);
+    font-family: inherit;
+}
+
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(173, 216, 230, 0.1);
+}
+
 /* ===== BUTTONS ===== */
 .btn {
     padding: 12px 24px;
