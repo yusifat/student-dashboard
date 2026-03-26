@@ -6,7 +6,7 @@ Een webapplicatie voor studenten om hun vakken, taken, deadlines en cijfers cent
 
 **Opdrachtgever**: Studentenraad "Beter Leren"  
 **Contactpersoon**: Dhr. L. De Boeck  
-**Student**: Joey  
+**Student**: Yusif  
 **Datum**: 8 januari 2026
 
 StudyBuddy lost het probleem op dat studenten moeite hebben met het organiseren van hun studietijd. Informatie staat verspreid over verschillende systemen, PDF's raken kwijt en de voortgang van projecten is onduidelijk. 

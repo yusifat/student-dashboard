@@ -1,7 +1,8 @@
 <?php
-require_once __DIR__ . '/src/utils/SessionManager.php';
-require_once __DIR__ . '/src/controllers/AuthController.php';
-require_once __DIR__ . '/src/controllers/CoursesController.php';
+require_once __DIR__ . '/../config/Config.php';
+require_once __DIR__ . '/../src/utils/SessionManager.php';
+require_once __DIR__ . '/../src/controllers/AuthController.php';
+require_once __DIR__ . '/../src/controllers/CoursesController.php';
 
 // Check authenticatie
 AuthController::requireLogin();

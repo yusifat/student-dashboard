@@ -1,8 +1,9 @@
 <?php
-require_once __DIR__ . '/src/utils/SessionManager.php';
-require_once __DIR__ . '/src/controllers/AuthController.php';
-require_once __DIR__ . '/src/controllers/CoursesController.php';
-require_once __DIR__ . '/src/models/Material.php';
+require_once __DIR__ . '/../config/Config.php';
+require_once __DIR__ . '/../src/utils/SessionManager.php';
+require_once __DIR__ . '/../src/controllers/AuthController.php';
+require_once __DIR__ . '/../src/controllers/CoursesController.php';
+require_once __DIR__ . '/../src/models/Material.php';
 
 AuthController::requireLogin();
 
