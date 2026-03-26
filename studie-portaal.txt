@@ -1,0 +1,56 @@
+Project 12 - Studie-Portaal
+Projectbriefing
+Projectnaam: Studie-Portaal "StudyBuddy"
+Datum: 8 januari 2026
+Opdrachtgever: Studentenraad "Beter Leren"
+Contactpersoon: Dhr. L. De Boeck (Studentenvoorzitter)
+Student: Joey
+1. Achtergrond en Probleemstelling
+Studenten hebben vaak moeite met het organiseren van hun studietijd. Informatie staat verspreid
+over verschillende systemen, PDF's raken kwijt in downloads en de voortgang van projecten is
+onduidelijk. Vooral bij groepsopdrachten is het lastig om te zien wie wat heeft gedaan.
+Er is behoefte aan een centrale web-app waar studenten hun vakken kunnen beheren, bronnen
+(links/notities) kunnen opslaan en hun cijfers kunnen bijhouden om hun gemiddelde te berekenen.
+2. Doelstelling
+Wij willen een Persoonlijk Studie Dashboard (StudyBuddy) laten ontwikkelen.
+Het platform moet studenten helpen bij het plannen. De kern van de app is het beheren van
+'Vakken' (Courses) en de bijbehorende 'Taken' (Tasks) en 'Cijfers' (Grades).
+3. Doelgroepen
+1. Studenten (Gebruikers): Willen hun eigen vakken, deadlines en behaalde cijfers
+inzien.
+2. Docenten/Beheerders (Admins): Willen vakken kunnen aanmaken en algemene
+aankondigingen of studiemateriaal kunnen pushen naar alle studenten.
+4. Gewenste Functionaliteiten (MustHaves)
+Authenticatie:
+Inloggen met een studentnummer.
+Rollen: student en admin (docent).
+Voor Studenten:
+Overzicht van actieve vakken (bijv. PHP, Databases, Nederlands).
+Deadline-lijst: Taken die gesorteerd zijn op datum.
+Cijferlijst: Invoer van behaalde resultaten met automatische berekening van het
+gemiddelde.
+Voor Admins (Docenten):
+Nieuwe vakken toevoegen aan het systeem.
+Studiemateriaal (links naar documenten) koppelen aan een vak.
+Overzicht van hoeveel studenten een vak volgen.
+5. Technische Eisen & Randvoorwaarden
+Taal & Database: PHP (8.x) en MySQL.
+Beveiliging: SQL-injectie preventie. Zorg dat een student alleen zijn *eigen* cijfers kan
+zien en bewerken.
+Wiskundige Logica: De backend moet het gemiddelde berekenen op basis van de
+ingevoerde cijfers uit de database.
+Data Relatie: Een vak (course) heeft meerdere taken (tasks) en meerdere cijfers (1-opN relatie).
+BIJLAGE: Specifieke Design &
+Interface Wensen
+De look-and-feel moet rustgevend en productief zijn: Pastelkleuren (lichtblauw, zachtgroen) en een
+'clean' wit dashboard.
+1. Deadline Indicators:
+Kritiek (binnen 2 dagen): Rode tekst + klok-icoon.
+Gepland: Blauwe badge.
+Voltooid: Doorgestreepte tekst met een groen vinkje.
+2. De "Focus" Navigatie:
+Minimale zijbalk (Sidebar) met iconen voor: Dashboard, Mijn Cijfers, Materialen
+en Instellingen.
+3. Grade View (Tabel):
+Een strakke tabel waar cijfers onder de 5.5 automatisch een rode achtergrond
+krijgen.
