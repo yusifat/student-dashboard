@@ -2,7 +2,8 @@
 require_once __DIR__ . '/../config/Config.php';
 require_once __DIR__ . '/../src/utils/SessionManager.php';
 require_once __DIR__ . '/../src/controllers/AuthController.php';
-require_once __DIR__ . '/../src/controllers/TasksController.php';
+require_once __DIR__ . '/../src/controllers/CoursesController.php';
+require_once __DIR__ . '/../src/models/Task.php';
 
 AuthController::requireLogin();
 
@@ -11,20 +12,9 @@ $user_id = $user['id'];
 $user_role = $user['role'];
 
 // Get tasks
-$all_tasks = TasksController::getStudentTasks($user_id);
-$critical_tasks = TasksController::getCriticalTasks($user_id);
-
-// Group by status
-$pending_tasks = array();
-$completed_tasks = array();
-
-foreach($all_tasks as $task) {
-    if($task['status'] === 'completed') {
-        $completed_tasks[] = $task;
-    } else {
-        $pending_tasks[] = $task;
-    }
-}
+$task_obj = new Task();
+$tasks = $task_obj->getTasksByStudent($user_id);
+$critical_tasks = $task_obj->getCriticalTasks($user_id);
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -32,95 +22,152 @@ foreach($all_tasks as $task) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deadlines - StudyBuddy</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="dashboard-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <a href="/dashboard.php" class="sidebar-item" title="Dashboard">📊</a>
-            <a href="/grades.php" class="sidebar-item" title="Mijn Cijfers">📈</a>
-            <a href="/tasks.php" class="sidebar-item active" title="Deadlines">⏰</a>
-            <a href="/materials.php" class="sidebar-item" title="Materialen">📚</a>
-            <?php if($user_role === 'admin'): ?>
-                <a href="/admin/courses.php" class="sidebar-item" title="Vakken Beheren">⚙️</a>
-            <?php endif; ?>
-            <a href="/logout.php" class="sidebar-item logout-btn" title="Uitloggen">🚪</a>
+<body class="bg-gray-50 antialiased">
+    <div class="flex h-screen bg-gray-100">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg">
+            <div class="h-full flex flex-col">
+                <div class="flex items-center space-x-2 p-6 border-b border-gray-200">
+                    <div class="bg-purple-600 rounded-lg p-2">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900">StudyBuddy</span>
+                </div>
+
+                <nav class="flex-1 px-4 py-6">
+                    <a href="<?php echo BASE_PATH; ?>/dashboard.php" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg mb-2 transition">
+                        <span>📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="<?php echo BASE_PATH; ?>/grades.php" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg mb-2 transition">
+                        <span>📈</span>
+                        <span>Mijn Cijfers</span>
+                    </a>
+                    <a href="<?php echo BASE_PATH; ?>/tasks.php" class="flex items-center space-x-3 px-4 py-3 bg-purple-50 text-purple-700 rounded-lg mb-2 font-medium border-l-4 border-purple-600">
+                        <span>⏰</span>
+                        <span>Deadlines</span>
+                    </a>
+                    <a href="<?php echo BASE_PATH; ?>/materials.php" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg mb-2 transition">
+                        <span>📚</span>
+                        <span>Materialen</span>
+                    </a>
+                    
+                    <?php if($user_role === 'admin'): ?>
+                        <div class="border-t border-gray-200 my-4 pt-4">
+                            <p class="text-xs font-semibold text-gray-500 uppercase px-4 mb-2">Docent Functies</p>
+                            <a href="<?php echo BASE_PATH; ?>/admin/courses.php" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg mb-2 transition">
+                                <span>⚙️</span>
+                                <span>Vakken Beheren</span>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                </nav>
+
+                <div class="border-t border-gray-200 p-4">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold"><?php echo substr($user['full_name'], 0, 1); ?></span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate"><?php echo htmlspecialchars($user['full_name']); ?></p>
+                            <p class="text-xs text-gray-500 truncate"><?php echo htmlspecialchars($user['student_number']); ?></p>
+                        </div>
+                    </div>
+                    <a href="<?php echo BASE_PATH; ?>/logout.php" class="w-full flex items-center justify-center space-x-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition text-sm font-medium">
+                        <span>🚪</span>
+                        <span>Uitloggen</span>
+                    </a>
+                </div>
+            </div>
         </aside>
-        
+
         <!-- Main Content -->
-        <main class="main-content">
-            <h1 style="font-size: 32px; margin-bottom: 10px;">Mijn Deadlines</h1>
-            <p style="color: #999; margin-bottom: 30px;">Alle taken en deadlines in één overzicht</p>
-            
-            <!-- Critical Tasks Alert -->
-            <?php if(!empty($critical_tasks)): ?>
-                <div style="background-color: #FFE5E5; border-left: 4px solid var(--danger-color); padding: 15px; border-radius: 8px; margin-bottom: 30px;">
-                    <p style="color: var(--danger-color); font-weight: 600; margin: 0;">
-                        ⚠️ Je hebt <?php echo count($critical_tasks); ?> kritieke taak(en) - deadline binnen 2 dagen!
-                    </p>
+        <main class="flex-1 overflow-auto">
+            <div class="p-8">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-900">⏰ Deadlines</h1>
+                    <p class="text-gray-600 mt-2">Alle taken gesorteerd op urgentie</p>
                 </div>
-            <?php endif; ?>
-            
-            <!-- Pending Tasks -->
-            <?php if(!empty($pending_tasks)): ?>
-                <section class="tasks-container">
-                    <h2 class="section-title">⏳ Openstaande Taken</h2>
-                    
-                    <?php foreach($pending_tasks as $task): 
-                        $urgency = TasksController::getUrgencyClass($task['deadline'], $task['status']);
-                        $is_critical = ($urgency === 'critical');
-                    ?>
-                        <div class="task-item">
-                            <div class="task-status <?php echo $urgency; ?>"></div>
-                            <div class="task-info" style="flex: 1;">
-                                <div class="task-title"><?php echo htmlspecialchars($task['title']); ?></div>
-                                <div class="task-meta">
-                                    <?php echo htmlspecialchars($task['course_name']); ?>
-                                </div>
+
+                <!-- Critical Tasks Alert -->
+                <?php if(!empty($critical_tasks)): ?>
+                    <div class="mb-6 bg-red-50 border-l-4 border-red-500 rounded-lg p-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                                </svg>
                             </div>
-                            <div class="task-deadline <?php if($is_critical) echo 'critical'; ?>">
-                                <?php if($is_critical): ?>
-                                    🔴 <?php echo TasksController::formatDeadline($task['deadline']); ?>
-                                <?php else: ?>
-                                    📅 <?php echo TasksController::formatDeadline($task['deadline']); ?>
-                                <?php endif; ?>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-red-800">
+                                    Je hebt <?php echo count($critical_tasks); ?> kritieke deadline(s)!
+                                </h3>
+                                <p class="text-xs text-red-700 mt-1">Minder dan 2 dagen te gaan.</p>
                             </div>
                         </div>
-                    <?php endforeach; ?>
-                </section>
-            <?php endif; ?>
-            
-            <!-- Completed Tasks -->
-            <?php if(!empty($completed_tasks)): ?>
-                <section class="tasks-container">
-                    <h2 class="section-title">✅ Voltooide Taken</h2>
-                    
-                    <?php foreach($completed_tasks as $task): ?>
-                        <div class="task-item">
-                            <div class="task-status completed"></div>
-                            <div class="task-info" style="flex: 1;">
-                                <div class="task-title" style="text-decoration: line-through; color: var(--success-color);">
-                                    <?php echo htmlspecialchars($task['title']); ?>
-                                </div>
-                                <div class="task-meta">
-                                    <?php echo htmlspecialchars($task['course_name']); ?>
+                    </div>
+                <?php endif; ?>
+
+                <!-- All Tasks -->
+                <?php if(empty($tasks)): ?>
+                    <div class="bg-white rounded-lg shadow p-12 text-center">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"></path>
+                        </svg>
+                        <h3 class="mt-2 text-lg font-medium text-gray-900">Geen taken</h3>
+                        <p class="mt-1 text-gray-600">Je hebt geen openstaande taken!</p>
+                    </div>
+                <?php else: ?>
+                    <div class="space-y-4">
+                        <?php foreach($tasks as $task): ?>
+                            <?php
+                                $urgency = $task_obj->getUrgency($task['deadline'], $task['status']);
+                                $class = '';
+                                $icon = '';
+                                if($urgency === 'critical') {
+                                    $class = 'border-l-4 border-red-500 bg-red-50';
+                                    $icon = '🔴';
+                                } elseif($urgency === 'completed') {
+                                    $class = 'border-l-4 border-green-500 opacity-60';
+                                    $icon = '✅';
+                                } else {
+                                    $class = 'border-l-4 border-blue-500 bg-blue-50';
+                                    $icon = '📅';
+                                }
+                            ?>
+                            <div class="bg-white rounded-lg shadow hover:shadow-md transition p-4 <?php echo $class; ?>">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <div class="flex items-center space-x-3 mb-2">
+                                            <span class="text-xl"><?php echo $icon; ?></span>
+                                            <h3 class="text-lg font-semibold text-gray-900"><?php echo htmlspecialchars($task['title']); ?></h3>
+                                        </div>
+                                        <p class="text-sm text-gray-600 mb-2"><?php echo htmlspecialchars($task['course_name']); ?></p>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            📅 <?php echo date('d-m-Y H:i', strtotime($task['deadline'])); ?>
+                                        </p>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <?php if($task['status'] === 'completed'): ?>
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                                Voltooid
+                                            </span>
+                                        <?php else: ?>
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                                                Openstaand
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="task-deadline completed">
-                                ✓ <?php echo TasksController::formatDeadline($task['deadline']); ?>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                </section>
-            <?php endif; ?>
-            
-            <!-- No Tasks -->
-            <?php if(empty($all_tasks)): ?>
-                <div style="padding: 40px; text-align: center; background: white; border-radius: 12px;">
-                    <p style="color: #999; font-size: 16px;">Je hebt geen taken. Alles ziet er rustig uit! 🌟</p>
-                </div>
-            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
         </main>
     </div>
 </body>
