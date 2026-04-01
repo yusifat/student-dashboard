@@ -124,7 +124,14 @@ foreach($courses as $course) {
                                 
                                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                     <?php foreach($course_data['materials'] as $material): ?>
-                                        <a href="<?php echo htmlspecialchars($material['url']); ?>" target="_blank" rel="noopener noreferrer"
+                                        <?php
+                                            // Vervang standaard voorbeeldlink door w3schools wanneer aanwezig
+                                            $materialUrl = $material['url'];
+                                            if($materialUrl === 'https://example.com/study-guide') {
+                                                $materialUrl = 'https://www.w3schools.com';
+                                            }
+                                        ?>
+                                        <a href="<?php echo htmlspecialchars($materialUrl); ?>" target="_blank" rel="noopener noreferrer"
                                            class="bg-white rounded-lg shadow hover:shadow-lg transition p-4 border-l-4 border-purple-500">
                                             <div class="flex items-start space-x-3">
                                                 <div class="text-2xl">

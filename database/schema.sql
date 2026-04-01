@@ -74,3 +74,14 @@ CREATE TABLE IF NOT EXISTS `materials` (
   FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
   INDEX idx_course (course_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `task_submissions` (
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `task_id` INT NOT NULL,
+  `student_id` INT NOT NULL,
+  `file_path` VARCHAR(500),
+  `submitted_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY unique_submission (task_id, student_id),
+  FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
+  FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

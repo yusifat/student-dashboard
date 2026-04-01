@@ -163,5 +163,54 @@ class Task {
         $stmt = $this->db->prepare('DELETE FROM ' . $this->table . ' WHERE id = ?');
         return $stmt->execute([$id]);
     }
+    
+    /**
+     * Submit taak door student (met optionele bijlage)
+     * 
+     * @param int $task_id
+     * @param int $student_id
+     * @param string|null $file_path
+     * @return bool
+     */
+    public function submitTask($task_id, $student_id, $file_path = null) {
+        // Start transaction
+        $this->db->beginTransaction();
+        
+        try {
+            // Update task status to completed
+            $stmt1 = $this->db->prepare('UPDATE ' . $this->table . ' SET status = ? WHERE id = ?');
+            $stmt1->execute(['completed', $task_id]);
+            
+            // Insert or update submission record
+            $stmt2 = $this->db->prepare('
+                INSERT INTO task_submissions (task_id, student_id, file_path) 
+                VALUES (?, ?, ?) 
+                ON DUPLICATE KEY UPDATE file_path = VALUES(file_path), submitted_at = CURRENT_TIMESTAMP
+            ');
+            $stmt2->execute([$task_id, $student_id, $file_path]);
+            
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            return false;
+        }
+    }
+    
+    /**
+     * Get submission voor taak en student
+     * 
+     * @param int $task_id
+     * @param int $student_id
+     * @return array|false
+     */
+    public function getSubmission($task_id, $student_id) {
+        $stmt = $this->db->prepare('
+            SELECT * FROM task_submissions 
+            WHERE task_id = ? AND student_id = ?
+        ');
+        $stmt->execute([$task_id, $student_id]);
+        return $stmt->fetch();
+    }
 }
 ?>

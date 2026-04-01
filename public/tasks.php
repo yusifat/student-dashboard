@@ -20,10 +20,41 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['a
         $error = 'Ongeldige taak geselecteerd';
     } else {
         $task_obj = new Task();
-        if($task_obj->updateStatus($task_id, 'completed')) {
-            $success = 'Taak succesvol ingeleverd';
-        } else {
-            $error = 'Kon taak niet inleveren. Probeer opnieuw.';
+
+        // Handle file upload if provided
+        $uploaded_file = null;
+        if(isset($_FILES['submission_file']) && $_FILES['submission_file']['error'] === UPLOAD_ERR_OK) {
+            $upload_dir = __DIR__ . '/../uploads/submissions/';
+            if(!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0755, true);
+            }
+
+            $file_name = basename($_FILES['submission_file']['name']);
+            $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+            $allowed_exts = ['pdf', 'doc', 'docx', 'txt', 'jpg', 'jpeg', 'png', 'zip'];
+
+            if(!in_array($file_ext, $allowed_exts)) {
+                $error = 'Bestandstype niet toegestaan. Alleen: ' . implode(', ', $allowed_exts);
+            } elseif($_FILES['submission_file']['size'] > 10 * 1024 * 1024) { // 10MB limit
+                $error = 'Bestand te groot. Maximum 10MB.';
+            } else {
+                $new_file_name = 'task_' . $task_id . '_user_' . $user_id . '_' . time() . '.' . $file_ext;
+                $upload_path = $upload_dir . $new_file_name;
+
+                if(move_uploaded_file($_FILES['submission_file']['tmp_name'], $upload_path)) {
+                    $uploaded_file = 'uploads/submissions/' . $new_file_name;
+                } else {
+                    $error = 'Kon bestand niet uploaden.';
+                }
+            }
+        }
+
+        if(empty($error)) {
+            if($task_obj->submitTask($task_id, $user_id, $uploaded_file)) {
+                $success = 'Taak succesvol ingeleverd' . ($uploaded_file ? ' met bijlage' : '');
+            } else {
+                $error = 'Kon taak niet inleveren. Probeer opnieuw.';
+            }
         }
     }
 }
@@ -187,11 +218,19 @@ $critical_tasks = $task_obj->getCriticalTasks($user_id);
                                         <?php else: ?>
                                             <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
                                                 Openstaand
-                                            </span>                                            <form method="POST" class="mt-2">
+                                            </span>
+                                            <form method="POST" enctype="multipart/form-data" class="mt-2 space-y-2">
                                                 <input type="hidden" name="action" value="submit_task">
                                                 <input type="hidden" name="task_id" value="<?php echo $task['id']; ?>">
-                                                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white rounded-md text-xs py-1">Inleveren</button>
-                                            </form>                                        <?php endif; ?>
+                                                <div>
+                                                    <label for="file_<?php echo $task['id']; ?>" class="block text-xs text-gray-600 mb-1">Bijlage (optioneel)</label>
+                                                    <input type="file" id="file_<?php echo $task['id']; ?>" name="submission_file" 
+                                                           accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.zip" 
+                                                           class="block w-full text-xs text-gray-500 file:mr-4 file:py-1 file:px-2 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                                                </div>
+                                                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white rounded-md text-xs py-1 transition">Inleveren</button>
+                                            </form>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
