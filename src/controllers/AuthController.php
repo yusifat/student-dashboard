@@ -27,6 +27,9 @@ class AuthController {
             );
         }
         
+        // Check if user exists
+        $userExists = $user->userExists($student_number);
+
         // Attempt login
         if($user->login($student_number, $password)) {
             SessionManager::setUser(array(
@@ -45,10 +48,17 @@ class AuthController {
                 )
             );
         }
+
+        if (!$userExists) {
+            return array(
+                'success' => false,
+                'error' => 'Deze gebruiker bestaat niet. Gebruik studentnummer of e-mail die is geregistreerd.'
+            );
+        }
         
         return array(
             'success' => false,
-            'error' => 'Ongeldig studentnummer of wachtwoord'
+            'error' => 'Wachtwoord onjuist. Probeer het opnieuw.'
         );
     }
     
