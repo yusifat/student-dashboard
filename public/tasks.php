@@ -11,6 +11,23 @@ $user = SessionManager::getUser();
 $user_id = $user['id'];
 $user_role = $user['role'];
 
+// Handle task submission by student
+$error = '';
+$success = '';
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'submit_task') {
+    $task_id = (int)($_POST['task_id'] ?? 0);
+    if($task_id <= 0) {
+        $error = 'Ongeldige taak geselecteerd';
+    } else {
+        $task_obj = new Task();
+        if($task_obj->updateStatus($task_id, 'completed')) {
+            $success = 'Taak succesvol ingeleverd';
+        } else {
+            $error = 'Kon taak niet inleveren. Probeer opnieuw.';
+        }
+    }
+}
+
 // Get tasks
 $task_obj = new Task();
 $tasks = $task_obj->getTasksByStudent($user_id);
@@ -93,6 +110,17 @@ $critical_tasks = $task_obj->getCriticalTasks($user_id);
                     <p class="text-gray-600 mt-2">Alle taken gesorteerd op urgentie</p>
                 </div>
 
+                <?php if($error): ?>
+                    <div class="mb-4 bg-red-50 border-l-4 border-red-500 rounded-lg p-4">
+                        <p class="text-red-700"><?php echo htmlspecialchars($error); ?></p>
+                    </div>
+                <?php endif; ?>
+                <?php if($success): ?>
+                    <div class="mb-4 bg-green-50 border-l-4 border-green-500 rounded-lg p-4">
+                        <p class="text-green-700"><?php echo htmlspecialchars($success); ?></p>
+                    </div>
+                <?php endif; ?>
+
                 <!-- Critical Tasks Alert -->
                 <?php if(!empty($critical_tasks)): ?>
                     <div class="mb-6 bg-red-50 border-l-4 border-red-500 rounded-lg p-4">
@@ -159,8 +187,11 @@ $critical_tasks = $task_obj->getCriticalTasks($user_id);
                                         <?php else: ?>
                                             <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
                                                 Openstaand
-                                            </span>
-                                        <?php endif; ?>
+                                            </span>                                            <form method="POST" class="mt-2">
+                                                <input type="hidden" name="action" value="submit_task">
+                                                <input type="hidden" name="task_id" value="<?php echo $task['id']; ?>">
+                                                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white rounded-md text-xs py-1">Inleveren</button>
+                                            </form>                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
