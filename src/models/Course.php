@@ -84,6 +84,24 @@ class Course {
         $result = $stmt->fetch();
         return $result['count'];
     }
+
+    /**
+     * Get ingeschreven studenten voor een vak
+     * 
+     * @param int $course_id
+     * @return array
+     */
+    public function getStudentsByCourse($course_id) {
+        $stmt = $this->db->prepare('
+            SELECT u.id, u.student_number, u.full_name
+            FROM users u
+            INNER JOIN ' . $this->student_courses_table . ' sc ON sc.student_id = u.id
+            WHERE sc.course_id = ?
+            ORDER BY u.full_name ASC
+        ');
+        $stmt->execute([$course_id]);
+        return $stmt->fetchAll();
+    }
     
     /**
      * Maak nieuw vak (admin only)
