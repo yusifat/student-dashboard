@@ -99,11 +99,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['a
                             
                             <div>
                                 <label for="student_number" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Studentnummer
+                                    Studentnummer of e-mail
                                 </label>
                                 <input type="text" id="student_number" name="student_number" required 
-                                       placeholder="bijv. S12345" 
-                                       pattern="[A-Za-z0-9]{5,10}"
+                                       placeholder="bijv. S12345 of admin@localhost" 
                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition">
                             </div>
                             

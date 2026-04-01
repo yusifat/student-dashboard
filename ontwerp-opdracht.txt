@@ -1,0 +1,29 @@
+💡 Uitleg
+Je maakt een ontwerp voor je project.
+
+De volledige uitleg wordt tijdens de les gegeven en besproken.
+
+...
+
+✔️ Checklist
+Alle (minimaal 12) functionele eisen uit de planning zijn vertaald naar het ontwerp.
+GUI functionaliteiten hebben schetsen/wireframes of een eenduidige beschrijving en zijn testbaar.
+Elke functionele beschrijving bevat: doel, invoer, uitvoer en foutafhandeling.
+Indien van toepassing zijn stappen (flow) en alternatieve scenario's beschreven.
+Technische eisen zijn concreet gemaakt (bijv. volledig ERD), zijn onderbouwd.
+
+Er zijn minimaal 2 relevante, verschillende schematechnieken; ERD, Flow diagram
+De schematechnieken zijn helemaal juist toegepast.
+
+Ontwerpkeuzes zijn onderbouwd (waarom is hiervoor gekozen?).
+Bij tenminste 3 ontwerpkeuzes zijn minstens één of meer alternatieve oplossingen overwogen en beschreven.
+Er is beschreven welke keuzes er ten aanzien van security of privacy (AVG) zijn gemaakt.
+🛠️ Opdracht
+Maak een ontwerp dat voldoet aan de examencriteria.
+
+Vul de checklist in: http://www.wijs.ovh/generic-forms/index.html?form=K1W2
+
+📤Inleveren
+Uitgewerkte en compleet ontwerp in Word
+Ingevulde checklist in Word
+Eventueel aanvullende bewijzen/bijlagen.

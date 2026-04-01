@@ -26,13 +26,14 @@ class User {
     /**
      * Login gebruiker
      * 
-     * @param string $student_number
+     * @param string $student_number_or_email
      * @param string $password
      * @return bool
      */
-    public function login($student_number, $password) {
-        $stmt = $this->db->prepare('SELECT * FROM ' . $this->table . ' WHERE student_number = ?');
-        $stmt->execute([$student_number]);
+    public function login($student_number_or_email, $password) {
+        // Helpt admin die email gebruikt i.p.v. studentnummer
+        $stmt = $this->db->prepare('SELECT * FROM ' . $this->table . ' WHERE student_number = ? OR email = ? LIMIT 1');
+        $stmt->execute([$student_number_or_email, $student_number_or_email]);
         
         $user = $stmt->fetch();
         
@@ -89,6 +90,18 @@ class User {
         return $stmt->fetch();
     }
     
+    /**
+     * Controleer of een gebruiker bestaat op studentnummer of email
+     * 
+     * @param string $identifier
+     * @return bool
+     */
+    public function userExists($identifier) {
+        $stmt = $this->db->prepare('SELECT id FROM ' . $this->table . ' WHERE student_number = ? OR email = ? LIMIT 1');
+        $stmt->execute([$identifier, $identifier]);
+        return (bool) $stmt->fetch();
+    }
+
     /**
      * Get alle admins
      * 
