@@ -41,7 +41,7 @@ class Grade {
     }
     
     /**
-     * Get cijfers voor specifiek vak
+     * Get cijfers voor specifiek vak (per student)
      * 
      * @param int $student_id
      * @param int $course_id
@@ -54,6 +54,24 @@ class Grade {
             ORDER BY created_at DESC
         ');
         $stmt->execute([$student_id, $course_id]);
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Get alle cijfers voor een vak (admin zicht)
+     * 
+     * @param int $course_id
+     * @return array
+     */
+    public function getGradesByCourseAll($course_id) {
+        $stmt = $this->db->prepare('
+            SELECT g.* , u.full_name, u.student_number
+            FROM ' . $this->table . ' g
+            INNER JOIN users u ON g.student_id = u.id
+            WHERE g.course_id = ?
+            ORDER BY u.full_name ASC, g.created_at DESC
+        ');
+        $stmt->execute([$course_id]);
         return $stmt->fetchAll();
     }
     

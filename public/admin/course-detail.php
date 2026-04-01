@@ -1,10 +1,12 @@
 <?php
 require_once __DIR__ . '/../../config/Config.php';
-require_once __DIR__ . '/../src/utils/SessionManager.php';
-require_once __DIR__ . '/../src/controllers/AuthController.php';
-require_once __DIR__ . '/../src/models/Course.php';
-require_once __DIR__ . '/../src/models/Task.php';
-require_once __DIR__ . '/../src/models/Material.php';
+require_once __DIR__ . '/../../src/utils/SessionManager.php';
+require_once __DIR__ . '/../../src/controllers/AuthController.php';
+require_once __DIR__ . '/../../src/controllers/GradesController.php';
+require_once __DIR__ . '/../../src/models/Course.php';
+require_once __DIR__ . '/../../src/models/Task.php';
+require_once __DIR__ . '/../../src/models/Material.php';
+require_once __DIR__ . '/../../src/models/Grade.php';
 
 AuthController::requireLogin();
 AuthController::requireAdmin();
@@ -85,12 +87,42 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['a
     }
 }
 
+// Handle grade creation (admin)
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add_grade') {
+    require_once __DIR__ . '/../../src/controllers/GradesController.php';
+    $student_id = (int)($_POST['student_id'] ?? 0);
+    $grade_value = $_POST['grade_value'] ?? '';
+    $weight = (int)($_POST['weight'] ?? 1);
+
+    if(!$student_id || empty($grade_value)) {
+        $error = 'Student en cijfer zijn verplicht';
+    } else {
+        $result = GradesController::addGrade($student_id, [
+            'course_id' => $course_id,
+            'grade_value' => $grade_value,
+            'weight' => $weight
+        ]);
+
+        if($result['success']) {
+            $success = $result['message'];
+        } else {
+            $error = $result['error'];
+        }
+    }
+}
+
+// Get students enrolled in course
+$students = $course_obj->getStudentsByCourse($course_id);
+
 // Get tasks and materials
 $task_obj = new Task();
 $tasks = $task_obj->getTasksByCourse($course_id);
 
 $material_obj = new Material();
 $materials = $material_obj->getMaterialByCourse($course_id);
+
+$grade_obj = new Grade();
+$grades = $grade_obj->getGradesByCourseAll($course_id);
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -247,6 +279,82 @@ $materials = $material_obj->getMaterialByCourse($course_id);
                                     </div>
                                 </div>
                             <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                </section>
+
+                <!-- Grades Section -->
+                <section class="mb-12">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900">📝 Cijfers Beheren</h2>
+                    </div>
+
+                    <?php if(empty($students)): ?>
+                        <div class="bg-white rounded-lg shadow p-8 text-center">
+                            <p class="text-gray-600">Er zijn geen studenten ingeschreven voor dit vak.</p>
+                        </div>
+                    <?php else: ?>
+                        <div class="bg-white rounded-lg shadow p-6 mb-6">
+                            <h3 class="text-lg font-semibold mb-4">Voeg nieuw cijfer toe</h3>
+                            <form method="POST" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                <input type="hidden" name="action" value="add_grade">
+
+                                <div>
+                                    <label for="student_id" class="block text-sm text-gray-700 mb-1">Student</label>
+                                    <select name="student_id" id="student_id" required class="w-full px-3 py-2 border border-gray-300 rounded">
+                                        <option value="">Selecteer student</option>
+                                        <?php foreach($students as $student): ?>
+                                            <option value="<?php echo $student['id']; ?>"><?php echo htmlspecialchars($student['full_name'] . ' (' . $student['student_number'] . ')'); ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="grade_value" class="block text-sm text-gray-700 mb-1">Cijfer</label>
+                                    <input type="number" name="grade_value" id="grade_value" step="0.1" min="1" max="10" required class="w-full px-3 py-2 border border-gray-300 rounded" placeholder="8.2">
+                                </div>
+
+                                <div>
+                                    <label for="weight" class="block text-sm text-gray-700 mb-1">Gewicht</label>
+                                    <input type="number" name="weight" id="weight" min="1" value="1" class="w-full px-3 py-2 border border-gray-300 rounded">
+                                </div>
+
+                                <div class="flex items-end">
+                                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded-lg">Toevoegen</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold mb-4">Huidige cijfers</h3>
+                            <?php if(empty($grades)): ?>
+                                <p class="text-gray-600">Er zijn nog geen cijfers voor dit vak.</p>
+                            <?php else: ?>
+                                <div class="overflow-auto">
+                                    <table class="min-w-full text-left text-sm">
+                                        <thead>
+                                            <tr class="border-b border-gray-200">
+                                                <th class="p-2">Student</th>
+                                                <th class="p-2">Studentnummer</th>
+                                                <th class="p-2">Cijfer</th>
+                                                <th class="p-2">Gewicht</th>
+                                                <th class="p-2">Aangemaakt</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-100">
+                                            <?php foreach($grades as $grade): ?>
+                                                <tr>
+                                                    <td class="p-2"><?php echo htmlspecialchars($grade['full_name']); ?></td>
+                                                    <td class="p-2"><?php echo htmlspecialchars($grade['student_number']); ?></td>
+                                                    <td class="p-2"><?php echo htmlspecialchars($grade['grade_value']); ?></td>
+                                                    <td class="p-2"><?php echo htmlspecialchars($grade['weight']); ?></td>
+                                                    <td class="p-2"><?php echo htmlspecialchars($grade['created_at'] ?? ''); ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     <?php endif; ?>
                 </section>
