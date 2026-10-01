@@ -148,7 +148,7 @@ $courses = CoursesController::getStudentCourses($user_id);
                     <a href="<?php echo BASE_PATH; ?>/tasks.php" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
                         <div class="flex items-center">
                             <div class="bg-orange-100 rounded-full p-3 mr-4">
-                                <span class="text-2xl">⏰</span>
+                                <span class="text-2xl">📆</span>
                             </div>
                             <div>
                                 <p class="text-gray-600 text-sm">Komende Deadlines</p>
