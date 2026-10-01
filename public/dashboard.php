@@ -90,7 +90,7 @@ $courses = CoursesController::getStudentCourses($user_id);
             <div class="p-8">
                 <!-- Header -->
                 <div class="mb-8">
-                    <h1 class="text-3xl font-bold text-gray-900">Welkom, <?php echo htmlspecialchars($user['full_name']); ?> 👋</h1>
+                    <h1 class="text-3xl font-bold text-gray-900">Welkom, <?php echo htmlspecialchars($user['full_name']); ?></h1>
                     <p class="text-gray-600 mt-2">Hier is jouw persoonlijke studie-overzicht</p>
                 </div>
 
