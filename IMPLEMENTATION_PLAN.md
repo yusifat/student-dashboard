@@ -1,19 +1,19 @@
-# StudyBuddy - Implementatie Stappenplan ✅
+# StudyBuddy - Implementatie Stappenplan 
 
-## Project Status: VOLTOOID ✅
+## Project Status: VOLTOOID 
 
 Dit is het verloop van het StudyBuddy project, gerealiseerd als MBO4 eindproject.
 
 ---
 
-## 📋 Fase 1: Voorbereiding & Setup
+## Fase 1: Voorbereiding & Setup
 
-### ✅ Git Repository
+### Git Repository
 - [x] Initialize git repo
 - [x] Create .gitignore
 - [x] Setup user configuration
 
-### ✅ Projectstructuur
+### Projectstructuur
 - [x] Create directory structure
 - [x] Setup folders: public/, src/, config/, database/
 - [x] Organize files by responsibility
@@ -22,9 +22,9 @@ Dit is het verloop van het StudyBuddy project, gerealiseerd als MBO4 eindproject
 
 ---
 
-## 📊 Fase 2: Database Design & Configuration
+## Fase 2: Database Design & Configuration
 
-### ✅ Database Schema
+### Database Schema
 - [x] Users table (students/admins)
 - [x] Courses table (vakken)
 - [x] Student_Courses junction table (inschrijvingen)
@@ -32,14 +32,14 @@ Dit is het verloop van het StudyBuddy project, gerealiseerd als MBO4 eindproject
 - [x] Grades table (cijfers)
 - [x] Materials table (links)
 
-### ✅ Database Connection
+### Database Connection
 - [x] PDO connection class
 - [x] Error handling
 - [x] Prepared statements setup
 
 **Commit**: `e5336cc - feat: Initial project setup`
 
-### ✅ Core Models
+### Core Models
 - [x] User model (login, register, get, update)
 - [x] Course model (CRUD operations)
 - [x] Grade model (with average calculation)
@@ -48,16 +48,16 @@ Dit is het verloop van het StudyBuddy project, gerealiseerd als MBO4 eindproject
 
 ---
 
-## 🔐 Fase 3: Authenticatie & Security
+## Fase 3: Authenticatie & Security
 
-### ✅ Authentication System
+### Authentication System
 - [x] AuthController (login/register/logout)
 - [x] Password hashing (ARGON2ID)
 - [x] Session management (SessionManager utility)
 - [x] Input validation & sanitization
 - [x] Role-based access control (RBAC)
 
-### ✅ Security Measures
+### Security Measures
 - [x] SQL injection prevention (prepared statements)
 - [x] XSS prevention (htmlspecialchars output escaping)
 - [x] Password strength validation
@@ -68,22 +68,22 @@ Dit is het verloop van het StudyBuddy project, gerealiseerd als MBO4 eindproject
 
 ---
 
-## 🎨 Fase 4: Frontend - Core Pages
+## Fase 4: Frontend - Core Pages
 
-### ✅ Login Page
+### Login Page
 - [x] Inloggen tab
 - [x] Registreren tab
 - [x] Form validation
 - [x] Error/success messages
 - [x] Responsive design
 
-### ✅ Dashboard
+### Dashboard
 - [x] Authenticated user greeting
 - [x] Courses grid layout
 - [x] Sidebar navigation with icons
 - [x] Student-specific content
 
-### ✅ Styling
+### Styling
 - [x] CSS stylesheet (style.css)
 - [x] Pastel colors (light blue, soft green)
 - [x] Responsive layout
@@ -94,23 +94,23 @@ Dit is het verloop van het StudyBuddy project, gerealiseerd als MBO4 eindproject
 
 ---
 
-## 📈 Fase 5: Student Features
+## Fase 5: Student Features
 
-### ✅ Grades Management
+### Grades Management
 - [x] GradesController with calculations
 - [x] Grades table view
 - [x] Course averages
 - [x] Overall average calculation
 - [x] Red highlight for grades < 5.5
 
-### ✅ Deadline Tracking
+### Deadline Tracking
 - [x] TasksController with urgency logic
 - [x] Tasks list with deadline sorting
 - [x] Critical tasks indicator (< 2 days)
 - [x] Status indicators (pending/completed)
 - [x] Formatted deadline display
 
-### ✅ Study Materials
+### Study Materials
 - [x] Materials page with course grouping
 - [x] Links to documents/resources
 - [x] File type indicators (PDF, video, etc)
@@ -120,21 +120,21 @@ Dit is het verloop van het StudyBuddy project, gerealiseerd als MBO4 eindproject
 
 ---
 
-## 👨‍🏫 Fase 6: Admin Features
+## Fase 6: Admin Features
 
-### ✅ Admin Panel
+### Admin Panel
 - [x] Admin courses page
 - [x] Course management (create, update, delete)
 - [x] Student count per course
 
-### ✅ Course Details Management
+### Course Details Management
 - [x] Task creation with deadlines
 - [x] Task deletion
 - [x] Material addition (links)
 - [x] Material deletion
 - [x] Modal dialogs for input
 
-### ✅ Role-Based Access
+### Role-Based Access
 - [x] requireAdmin() protection
 - [x] Admin-only navigation
 - [x] Role-specific redirects
@@ -143,9 +143,9 @@ Dit is het verloop van het StudyBuddy project, gerealiseerd als MBO4 eindproject
 
 ---
 
-## 📚 Fase 7: Documentation & Polish
+## Fase 7: Documentation & Polish
 
-### ✅ Setup Documentation
+### Setup Documentation
 - [x] SETUP.md with detailed installation
 - [x] Database configuration steps
 - [x] Webserver setup (Apache/Nginx)
@@ -154,7 +154,7 @@ Dit is het verloop van het StudyBuddy project, gerealiseerd als MBO4 eindproject
 - [x] API endpoint documentation
 - [x] Troubleshooting guide
 
-### ✅ Project Documentation
+### Project Documentation
 - [x] Comprehensive README.md
 - [x] Project structure explanation
 - [x] Quick start guide
@@ -162,7 +162,7 @@ Dit is het verloop van het StudyBuddy project, gerealiseerd als MBO4 eindproject
 - [x] Design guidelines
 - [x] Git commit history
 
-### ✅ Code Polish
+### Code Polish
 - [x] Select/textarea styling in CSS
 - [x] Index.php entry point
 - [x] Proper error handling
@@ -174,7 +174,7 @@ Dit is het verloop van het StudyBuddy project, gerealiseerd als MBO4 eindproject
 
 ---
 
-## 🚀 Implemented Features Checklist
+## Implemented Features Checklist
 
 ### Must-Have Features
 - [x] **Authenticatie** - Login with student number, role-based access
@@ -205,7 +205,7 @@ Dit is het verloop van het StudyBuddy project, gerealiseerd als MBO4 eindproject
 
 ---
 
-## 📊 Tech Stack Summary
+## Tech Stack Summary
 
 **Backend**: PHP 8.x with OOP principles  
 **Database**: MySQL with InnoDB  
@@ -215,7 +215,7 @@ Dit is het verloop van het StudyBuddy project, gerealiseerd als MBO4 eindproject
 
 ---
 
-## 📈 Project Metrics
+## Project Metrics
 
 | Metric | Value |
 |--------|-------|
@@ -229,30 +229,30 @@ Dit is het verloop van het StudyBuddy project, gerealiseerd als MBO4 eindproject
 
 ---
 
-## 🎓 Learning Outcomes (MBO4)
+##  Learning Outcomes 
 
 ### Technical Skills
-- ✅ OOP in PHP (classes, inheritance, encapsulation)
-- ✅ Database design (relational schema, normalization)
-- ✅ SQL (CREATE, INSERT, SELECT, JOIN, aggregate functions)
-- ✅ Web security (SQL injection, XSS, password hashing)
-- ✅ Session management and authentication
-- ✅ RESTful principles in controllers
-- ✅ HTML/CSS responsive design
-- ✅ Git version control
+- OOP in PHP (classes, inheritance, encapsulation)
+- Database design (relational schema, normalization)
+- SQL (CREATE, INSERT, SELECT, JOIN, aggregate functions)
+- Web security (SQL injection, XSS, password hashing)
+- Session management and authentication
+- RESTful principles in controllers
+- HTML/CSS responsive design
+- Git version control
 
 ### Professional Skills
-- ✅ Project planning and execution
-- ✅ Code organization and structure
-- ✅ Documentation writing (README, SETUP, inline comments)
-- ✅ User-centered design
-- ✅ Testing and debugging
-- ✅ Clean code principles
-- ✅ Security best practices
+- Project planning and execution
+- Code organization and structure
+- Documentation writing (README, SETUP, inline comments)
+- User-centered design
+- Testing and debugging
+- Clean code principles
+- Security best practices
 
 ---
 
-## 🔄 Development Workflow
+##  Development Workflow
 
 ```bash
 # 1. Initial setup
@@ -275,7 +275,7 @@ git log --oneline  # Show commit history
 
 ---
 
-## 💡 Key Implementation Details
+##  Key Implementation Details
 
 ### Database Relationships
 ```
@@ -306,21 +306,19 @@ Request → Controller → Model → Database
 
 ---
 
-## ✅ Conclusion
+##  Conclusion
 
-StudyBuddy is een **volledig functioneel** webapplicatie project dat alle MBO4 eisen vervult:
+StudyBuddy is een webapplicatie project dat alle MBO4 eisen vervult:
 
-1. ✅ **Requirements** - Alle eisen uit briefing geïmplementeerd
-2. ✅ **Security** - Professionele beveiligingsmaatregelen
-3. ✅ **Scalability** - Goed gestructureerde, onderhoudbare code
-4. ✅ **Documentation** - Uitgebreide README en SETUP guides
-5. ✅ **Git History** - Duidelijke commit messages en versioning
-6. ✅ **Code Quality** - Clean, commented, professional standard
-
-**Project Status**: ✅ **PRODUCTION READY**
+1. **Requirements** - Alle eisen uit briefing geïmplementeerd
+2. **Security** - Professionele beveiligingsmaatregelen
+3. **Scalability** - Goed gestructureerde, onderhoudbare code
+4. **Documentation** - Uitgebreide README en SETUP guides
+5. **Git History** - Duidelijke commit messages en versioning
+6. **Code Quality** - Clean, commented, professional standard
 
 ---
 
-**Aangemaakt door**: Joey  
+**Aangemaakt door**: Yusif  
 **Datum**: 26 maart 2026  
 **Versie**: 1.0.0

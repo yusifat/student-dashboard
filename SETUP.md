@@ -85,7 +85,7 @@ database/           # Database files
 
 ### Voor Docenten/Admins
 1. Login met admin account
-2. Ga naar Vakken Beheren (⚙️ in sidebar)
+2. Ga naar Vakken Beheren (in sidebar)
 3. Maak vakken aan
 4. Voeg taken en studiemateriaal toe
 5. Students kunnen zich inschrijven
@@ -93,29 +93,29 @@ database/           # Database files
 ## Features
 
 ### Student Features
-- ✅ Vakken overzicht (mijn vakken)
-- ✅ Deadline tracking met urgency levels
-- ✅ Cijfers management met automatische gemiddeldenbberekening
-- ✅ Studiemateriaal links collectie
-- ✅ Persoonlijk dashboard
-- ✅ Sessie management & logout
+- Vakken overzicht (mijn vakken)
+- Deadline tracking met urgency levels
+- Cijfers management met automatische gemiddeldenbberekening
+- Studiemateriaal links collectie
+- Persoonlijk dashboard
+- Sessie management & logout
 
 ### Admin Features
-- ✅ Vak management (create, update, delete)
-- ✅ Taken toevoegen per vak
-- ✅ Studiemateriaal linksbeheren
-- ✅ Student tellingen per vak
-- ✅ Role-based access control
+- Vak management (create, update, delete)
+- Taken toevoegen per vak
+- Studiemateriaal linksbeheren
+- Student tellingen per vak
+- Role-based access control
 
 ## Security Features
 
 ### Implementatie
-- 🔒 SQL Injection preventie (prepared statements)
-- 🔒 XSS preventie (htmlspecialchars output escaping)
-- 🔒 Password hashing (ARGON2ID algorithm)
-- 🔒 Session management
-- 🔒 Role-based access control (RBAC)
-- 🔒 CSRF token voorkoming (session-based)
+- SQL Injection preventie (prepared statements)
+- XSS preventie (htmlspecialchars output escaping)
+- Password hashing (ARGON2ID algorithm)
+- Session management
+- Role-based access control (RBAC)
+- CSRF token voorkoming (session-based)
 
 ### Best Practices
 ```php
